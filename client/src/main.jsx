@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import AddCoffee from "./components/AddCoffee";
 import UpdateCoffee from "./components/UpdateCoffee";
 import { createBrowserRouter, RouterProvider } from "react-router";
+import CoffeeDetails from "./components/CoffeeDetails";
 
 const router = createBrowserRouter([
   {
@@ -14,15 +15,24 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: () => fetch("http://localhost:3000/all-coffees"),
         Component: Home,
       },
       {
-        path: "/addCoffee",
+        path: "/add-coffee",
         Component: AddCoffee,
       },
       {
-        path: "/updateCoffee",
+        path: "/update-coffee/:id",
         Component: UpdateCoffee,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/all-coffees/${params.id}`),
+      },
+      {
+        path: "/coffee-details/:id",
+        Component: CoffeeDetails,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/all-coffees/${params.id}`),
       },
     ],
   },
